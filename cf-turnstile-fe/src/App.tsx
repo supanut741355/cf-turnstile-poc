@@ -1,11 +1,17 @@
 import './index.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import HomePage from './pages/Home'
+import LoginPage from './pages/Login'
 function App() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold underline text-blue-600">
-      Tailwind CSS is working!
-      </h1>
+      <Router>
+        <Routes>
+          <Route path='/' element={<HomePage />}/>
+          <Route path='/login' element={<LoginPage />}/>
+        </Routes>
+      </Router>
     </>
   )
 }

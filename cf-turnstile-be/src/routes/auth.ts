@@ -6,6 +6,22 @@ import jwt from "jsonwebtoken";
 const router = Router();
 
 
+router.get('/me', (req, res) => {
+  const token = req.cookies.token
+  if(!token) return res.status(401).json({ message: "unauthorized" })
+    try {
+      const payload = jwt.verify(token, process.env.JWT_SECRET)
+      res.json({
+        id: payload.id,
+        email: payload.email
+      })
+    } catch (error) {
+      res.status(401).json({
+        message: "invalid token"
+      })
+    }
+})
+
 router.post("/login", 
   async(req, res) => { // query db
     const {email, password} = req.body

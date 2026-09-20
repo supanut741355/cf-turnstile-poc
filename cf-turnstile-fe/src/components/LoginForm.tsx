@@ -46,11 +46,18 @@ const LoginForm = () => {
         body: JSON.stringify({
           email,
           password,
+          turnstileToken: token
         }),
         credentials: "include" 
       })
       const data = await res.json()
       setUser(data.user ?? data)
+
+      if(!res.ok) {
+        window.turnstile.reset(widgetId.current)
+        setToken("")
+        return
+      }
     } catch (error) {
       console.log(error); 
     }
@@ -67,10 +74,15 @@ const LoginForm = () => {
         <input type="password" name="password"  className="mb-6 w-full rounded border p-2" />
         <div ref={boxRef} />
         <div>
-          <button className="w-full rounded bg-blue-500 p-2 text-white hover:bg-blue-600 transition-colors">
-            Submit
-          </button>
-        </div>
+        <button 
+          disabled={!token} 
+          className="w-full rounded bg-blue-500 p-2 text-white transition-colors
+                    hover:bg-blue-600 
+                    disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-300"
+        >
+          Submit
+        </button>
+      </div>
       </form>
     </div>
   )

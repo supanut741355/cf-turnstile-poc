@@ -19,7 +19,7 @@ const USERS = [
 
 export const  findUserByEmail = async (email: string) => {
   const key = email.trim().toLowerCase();
-  console.log("🚀 ~ findUserByEmail ~ key:", key)
+  // console.log("🚀 ~ findUserByEmail ~ key:", key)
   
   return USERS.find((u) => u.email.toLowerCase() === key) ?? null;
 }

@@ -1,6 +1,10 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 
-type User = { id: string; email: string }
+type User = { 
+  id: string;
+  email: string;
+  username: string;
+}
 
 type AuthContextValue = {
   user: User | null
@@ -23,7 +27,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         })
         // console.log("🚀 ~ check ~ res:", res)
         setUser(res.ok ? await res.json() : null)
-        console.log('111', user);
+        // console.log('111', user);
       } catch (error){
         console.log('check error:', error);
         setUser(null)
@@ -35,7 +39,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   const logout = async () => {
-    console.log('call logout');
+    // console.log('call logout');
     
     await fetch("http://localhost:4000/api/logout", {
       method: "POST",

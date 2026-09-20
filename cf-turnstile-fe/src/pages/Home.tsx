@@ -10,8 +10,8 @@ const HomePage = () => {
 
   return (
     <>
-      <p>
-        yo {user.email}
+      <p className="text-2xl">
+        yo {user.username}
       </p>
       
       <button onClick={handleLogout} className="bg-red-500 m-2 p-2 border">Logout</button>

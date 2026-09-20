@@ -32,7 +32,7 @@ router.post("/logout", (req, res) => {
     sameSite: 'lax',
     path: '/'
   })
-  console.log('cookie clear');
+  // console.log('cookie clear');
   
   res.json({
     message: "logged out"

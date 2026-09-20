@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext"
 
 const PublicRoute = () => {
   const {user, loading} = useAuth()
-  console.log('yoyo PublicRoute');
+  // console.log('yoyo PublicRoute');
   if(loading) return <div className="p-6">Loading...</div>
   if(user) return <Navigate to="/" replace />
 

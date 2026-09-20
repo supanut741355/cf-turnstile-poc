@@ -18,19 +18,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const check = async () => {
       try {
-        // const res = await fetch("http://localhost:3000/api/me", {
-        //   credentials: "include",
-        // })
-        // const res = {ok: true}
-        const res = {ok: true, id: '001', email:'yoyo'}
-        // setUser(res.ok ? await res.json() : null)
-        setUser(res.ok ? res : null)
+        const res = await fetch("http://localhost:4000/api/me", {
+          credentials: "include",
+        })
+        // console.log("🚀 ~ check ~ res:", res)
+        setUser(res.ok ? await res.json() : null)
         console.log('111', user);
-      } catch {
-        console.log('222');
+      } catch (error){
+        console.log('check error:', error);
         setUser(null)
       } finally {
-        console.log('333');
         setLoading(false)
       }
     }
@@ -38,10 +35,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   const logout = async () => {
-    // await fetch("http://localhost:3000/api/logout", {
-    //   method: "POST",
-    //   credentials: "include",
-    // })
+    console.log('call logout');
+    
+    await fetch("http://localhost:4000/api/logout", {
+      method: "POST",
+      credentials: "include",
+    })
     setUser(null)
   }
 

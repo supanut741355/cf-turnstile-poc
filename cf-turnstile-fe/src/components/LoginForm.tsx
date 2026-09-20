@@ -1,25 +1,33 @@
-import { useState } from "react"
+import { useAuth } from "../context/AuthContext"
 
 const LoginForm = () => {
 
-  const [tsToken, setTsToken] = useState("")
+  const {setUser} = useAuth()
+
+
 
   const handleSubmit = async(e) => {
     e.preventDefault()
     // console.log(e.target.email.value);
     // console.log(e.target.password.value);
     const email = e.target.email.value
-    const password = e.target.email.password
-    const res = await fetch("http://localhost:3000/api/login", {
-      method: 'POST',
-      headers: {"content-Type": "application/json"},
-      body: JSON.stringify({
-        email,
-        password,
-        turnstileToken: tsToken
-      })
-    })
+    const password = e.target.password.value
 
+    try {
+      const res = await fetch("http://localhost:4000/api/login", {
+        method: 'POST',
+        headers: {"content-Type": "application/json"},
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+        credentials: "include" 
+      })
+      const data = await res.json()
+      setUser(data.user ?? data)
+    } catch (error) {
+      console.log(error); 
+    }
   }
 
 

@@ -6,12 +6,12 @@ const HomePage = () => {
     logout()
   }
 
-  const {logout} = useAuth()
+  const {logout, user} = useAuth()
 
   return (
     <>
       <p>
-        yo home page
+        yo {user.email}
       </p>
       
       <button onClick={handleLogout} className="bg-red-500 m-2 p-2 border">Logout</button>

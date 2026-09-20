@@ -1,10 +1,36 @@
+import { useEffect, useRef, useState } from "react"
 import { useAuth } from "../context/AuthContext"
 
+
+const VITE_TURNSTILE_SITEKEY = "0x4AAAAAAE6fsgMT3113Yume"
+
 const LoginForm = () => {
-
   const {setUser} = useAuth()
+  const boxRef = useRef(null)
+  const widgetId = useRef(null);
+  const [token, setToken] = useState("")
+  useEffect(() => {
+    const render = () => {
+      if (!boxRef.current || widgetId.current !== null) return;
+      widgetId.current = window.turnstile.render(boxRef.current, {
+        sitekey: VITE_TURNSTILE_SITEKEY,
+        action: "login",
+        callback: (t) => {
+          console.log('yo token',t);          
+          setToken(t)
+        },
+        "expired-callback": () => setToken(""),
+        "error-callback": () => setToken(""),
+      });
+    };
 
-
+    if (window.turnstile) render();
+    else window.onloadTurnstileCallback = render;
+    return () => {
+      if (widgetId.current !== null) window.turnstile.remove(widgetId.current);
+      widgetId.current = null;
+    };
+  }, []);
 
   const handleSubmit = async(e) => {
     e.preventDefault()
@@ -39,7 +65,7 @@ const LoginForm = () => {
         
         <p className="mb-1 font-medium text-gray-75xl">Password</p>
         <input type="password" name="password"  className="mb-6 w-full rounded border p-2" />
-        
+        <div ref={boxRef} />
         <div>
           <button className="w-full rounded bg-blue-500 p-2 text-white hover:bg-blue-600 transition-colors">
             Submit

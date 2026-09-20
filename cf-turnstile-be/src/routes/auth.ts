@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { findUserByEmail } from "../utils/finduserbyemail.js";
 import jwt from "jsonwebtoken";
 import { config } from "../configs/env.js";
+import { requireTurnstile } from "../middlewares/turnstile.js";
 
 const router = Router();
 
@@ -40,6 +41,7 @@ router.post("/logout", (req, res) => {
 })
 
 router.post("/login", 
+  requireTurnstile(),
   async(req, res) => { // query db
     const {email, password} = req.body
     if (typeof email !== "string" || typeof password !== "string" || !email || !password) {

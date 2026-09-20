@@ -14,7 +14,6 @@ const LoginForm = () => {
       if (!boxRef.current || widgetId.current !== null) return;
       widgetId.current = window.turnstile.render(boxRef.current, {
         sitekey: VITE_TURNSTILE_SITEKEY,
-        action: "login",
         callback: (t) => {
           console.log('yo token',t);          
           setToken(t)
@@ -50,14 +49,17 @@ const LoginForm = () => {
         }),
         credentials: "include" 
       })
-      const data = await res.json()
-      setUser(data.user ?? data)
+  
 
       if(!res.ok) {
         window.turnstile.reset(widgetId.current)
         setToken("")
         return
       }
+
+      const data = await res.json()
+      console.log("🚀 ~ handleSubmit ~ data:", data)
+      setUser(data.user ?? data)
     } catch (error) {
       console.log(error); 
     }
